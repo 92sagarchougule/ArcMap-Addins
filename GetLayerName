@@ -1,0 +1,47 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.IO;
+using ESRI.ArcGIS.Framework;
+using ESRI.ArcGIS.ArcMapUI;
+using ESRI.ArcGIS.Carto;
+
+using System.Windows.Forms;
+
+namespace FirstLyr
+{
+    public class GetLayer : ESRI.ArcGIS.Desktop.AddIns.Button
+    {
+        public GetLayer()
+        {
+        }
+
+        protected override void OnClick()
+        {
+            IDocument document = ArcMap.Application.Document;
+
+            IMxDocument mxdocument = (IMxDocument)document;
+
+            IMap map = mxdocument.FocusMap;
+
+            int lyrcount =  map.LayerCount;
+
+            for (int a = 0; a < lyrcount; a++)
+            {
+                ILayer layer = map.get_Layer(a);
+
+
+                string lyrName = layer.Name;
+
+                MessageBox.Show(a + " \t" + lyrName + "\n");
+
+            }
+            
+        }
+        protected override void OnUpdate()
+        {
+            Enabled = ArcMap.Application != null;
+        }
+    }
+
+}
